@@ -45,16 +45,13 @@ jobs:
           git show -s --pretty=reference HEAD
 
       # Upload from a single matrix job to avoid merge/fan-in issues
-      - name: Upload coverage to Codecov (OIDC, single job)
+      - name: Upload coverage to Codecov
         if: matrix.python-version == '3.12'
         uses: codecov/codecov-action@v5
         with:
-          use_oidc: true
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
           flags: unittests
-          name: codecov-umbrella  
-          override_branch: ${{ github.head_ref || github.ref_name }}
-          override_commit: ${{ github.sha }}
-          override_pr: ${{ github.event.number }}
+          name: codecov-umbrella
           fail_ci_if_error: true
           verbose: true
